@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Define the style for the scrollbar for elements with the .custom-scrollbar class */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track (the area on which the thumb moves) */
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Color of the track */
+}
+
+/* Handle (the draggable scrolling thumb) */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgb(75, 74, 74);
+  border-radius: 100%;
+}
