@@ -23,7 +23,10 @@ function ShopHero({}: Props) {
           <h1 className="text-3xl md:text-5xl font-semibold">Market Realm</h1>
           {/* nav small  */}
           <div className="flex mt-[1rem] justify-center items-center text-[13px] font-bold text-primary-200  gap-2">
-            <Link href="/">Home</Link> <span>></span> <Link href="shop" className="text-primary-50">Products</Link>
+            <Link href="/">Home</Link> <span>·</span>{" "}
+            <Link href="shop" className="text-primary-50">
+              Products
+            </Link>
           </div>
         </div>
       </div>

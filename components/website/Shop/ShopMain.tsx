@@ -16,18 +16,16 @@ import ProductsData from "@/data/products";
 type Props = {};
 
 function AllProducts({}: Props) {
-  const [hoveredIndex, setHoveredIndex] = useState(null);
   const hoverIconRef = useRef(null);
-  const handleHoverIcon = (index) => {
-    setHoveredIndex(index);
+  const handleHoverIcon = (index: number) => {
     gsap.fromTo(
       `.hover-icon-${index}`,
       { bottom: 0, opacity: 0 },
       { bottom: 20, opacity: 1, duration: 0.5, ease: "linear" }
     );
   };
-  const handleLeaveIcon = (index) => {
-    setHoveredIndex(null);
+
+  const handleLeaveIcon = (index: number) => {
     gsap.to(`.hover-icon-${index}`, {
       opacity: 0,
       bottom: 0,
@@ -76,7 +74,7 @@ function AllProducts({}: Props) {
   const [renderProducts, setRenderProducts] = useState(ProductsData);
 
   const [categoryName, setCategoryName] = useState("");
-  const handleProductByCategory = (name) => {
+  const handleProductByCategory = (name: string) => {
     setCategoryName(name);
   };
 
@@ -89,8 +87,8 @@ function AllProducts({}: Props) {
     return !categoryName || item.category === categoryName;
   });
 
-  const [clickedProducts, setClickedProducts] = useState([]);
-  const handleClickProduct = (clickedProduct) => {
+  const [clickedProducts, setClickedProducts] = useState<any[]>([]);
+  const handleClickProduct = (clickedProduct: any) => {
     // Add the clicked product to the clickedProducts array
     setClickedProducts([...clickedProducts, clickedProduct]);
   };

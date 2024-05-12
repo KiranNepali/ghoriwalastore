@@ -11,15 +11,25 @@ import RecommendedProduct from "./RecommendedProduct";
 type Props = {};
 
 function ProductDetailMain({}: Props) {
-  const  [productDetail, setProductDetail] = useState([]);
+  const [productDetail, setProductDetail] = useState([]);
   return (
     <main className="w-11/12 mx-auto my-[5rem]  md:my-[8rem]  flex flex-col gap-10 justify-center items-center">
       <div className="w-full flex flex-col justify-center items-center">
         {/* nav small  */}
         <div className="flex  mb-[3rem] justify-start w-full items-center text-[13px] font-bold text-primary-200  gap-2">
-            <Link  href="/" className="hover:text-primary-400">Home</Link> <span>></span> <Link href="products" className="hover:text-primary-400">Products</Link>>
-            <Link className="text-primary-400" href="product-detail">Product detail</Link> <span>></span> 
-          </div>
+          <Link href="/" className="hover:text-primary-400">
+            Home
+          </Link>{" "}
+          <span>·</span>{" "}
+          <Link href="products" className="hover:text-primary-400">
+            Products
+          </Link>
+          ·
+          <Link className="text-primary-400" href="product-detail">
+            Product detail
+          </Link>{" "}
+          <span>·</span>
+        </div>
         <div className="grid w-full md:grid-cols-7 gap-5 place-content-center place-items-center">
           {/* product images  */}
           <div className="w-full h-full flex flex-col md:flex-row  col-span-3 gap-2">

@@ -13,14 +13,14 @@ import gsap from "gsap";
 type Props = {};
 
 function SocialProduct({}: Props) {
-  const handleHover = (index) => {
+  const handleHover = (index: number) => {
     gsap.fromTo(
       `.text-reveal-${index}`,
       { opacity: 0 },
       { opacity: 0.6, duration: 0.3, ease: "linear" }
     );
   };
-  const handleLeave = (index) => {
+  const handleLeave = (index: number) => {
     gsap.to(`.text-reveal-${index}`, {
       opacity: 0,
       duration: 0.3,

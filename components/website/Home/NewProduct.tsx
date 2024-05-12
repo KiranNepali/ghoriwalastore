@@ -19,7 +19,7 @@ import { useGSAP } from "@gsap/react";
 type Props = {};
 
 function NewProduct({}: Props) {
-  const handleHoverIcon = (index) => {
+  const handleHoverIcon = (index: number) => {
     gsap.fromTo(
       `.hover-icon-${index}`,
       { bottom: 0, opacity: 0 },
@@ -27,7 +27,7 @@ function NewProduct({}: Props) {
     );
   };
 
-  const handleLeaveIcon = (index) => {
+  const handleLeaveIcon = (index: number) => {
     gsap.to(`.hover-icon-${index}`, {
       opacity: 0,
       bottom: 0,
@@ -40,7 +40,9 @@ function NewProduct({}: Props) {
       <div className="w-full h-full flex flex-col justify-center items-center">
         {/* title  */}
         <div className="flex flex-col justify-center items-center gap-5">
-          <span className="text-2xl md:text-4xl font-semibold">New Product</span>
+          <span className="text-2xl md:text-4xl font-semibold">
+            New Product
+          </span>
           <hr className="bg-secondary-500 w-[6rem] rounded-[110%] h-[3px]" />
         </div>
 

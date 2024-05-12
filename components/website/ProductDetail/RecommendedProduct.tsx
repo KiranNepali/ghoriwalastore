@@ -16,7 +16,7 @@ type Props = {};
 
 function RecommendedProduct({}: Props) {
   // handle hover on card
-  const handleHoverIcon = (index) => {
+  const handleHoverIcon = (index: number) => {
     gsap.fromTo(
       `.hover-icon-${index}`,
       { bottom: 0, opacity: 0 },
@@ -24,7 +24,7 @@ function RecommendedProduct({}: Props) {
     );
   };
 
-  const handleLeaveIcon = (index) => {
+  const handleLeaveIcon = (index: number) => {
     gsap.to(`.hover-icon-${index}`, {
       opacity: 0,
       bottom: 0,
