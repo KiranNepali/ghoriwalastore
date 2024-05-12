@@ -23,7 +23,7 @@ function FilterShop({
         pin: ".filterDiv",
       },
     });
-    gsap.to(".filterDiv", {
+    gsap.to(productsHeaderRef.current, {
       scrollTrigger: {
         markers: true,
         start: "top 8%",
