@@ -85,7 +85,7 @@ function Navbar({}: Props) {
       <div
         className={`w-full ${
           navColor ? "bg-[#FF0100] backdrop-blur-sm  " : "bg-[#FF0100]"
-        } fixed top-0 left-0 mx-auto h-[4rem] w-full  flex justify-start items-start z-20`}
+        } fixed top-0 left-0 mx-auto h-[4rem] w-full  flex justify-start items-start z-[40]`}
       >
         <div className="w-11/12 mx-auto  h-full flex justify-between items-center">
           {/* logo  */}
