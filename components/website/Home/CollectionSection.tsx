@@ -21,9 +21,13 @@ function CollectionSection({}: Props) {
         </div>
 
         {/* middle card  */}
-        <div className="absolute backdrop-blur-sm  top-[50%] border-[3px] border-primary-200 text-primary-50 left-[50%] -translate-x-[50%] -translate-y-[50%] w-[90%] md:w-[35rem] h-[18rem] p-4 flex flex-col gap-3 justify-center items-center">
-          <span className="text-2xl md:text-3xl font-semibold">Collection Fashion</span>
-          <span className="text-xl md:text-2xl tracking-[10px]">JUST FOR YOU</span>
+        <div className="absolute backdrop-blur-sm border-[2px]  top-[50%]   border-primary-200 text-primary-50 left-[50%] -translate-x-[50%] -translate-y-[50%] w-[90%] md:w-[35rem] h-[18rem] p-4 flex flex-col gap-3 justify-center items-center">
+          <span className="text-2xl md:text-3xl font-semibold">
+            Collection Fashion
+          </span>
+          <span className="text-xl md:text-2xl tracking-[10px]">
+            JUST FOR YOU
+          </span>
 
           <Link href="/" className="mt-[1rem]">
             <button className="bg-primary-900 mt-3 uppercase px-8 py-3 text-primary-50 text-[11px] md:text-[12px] font-semibold tracking-widest hover:bg-secondary-600">

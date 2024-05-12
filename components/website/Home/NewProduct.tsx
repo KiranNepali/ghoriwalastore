@@ -41,7 +41,7 @@ function NewProduct({}: Props) {
         {/* title  */}
         <div className="flex flex-col justify-center items-center gap-5">
           <span className="text-2xl md:text-4xl font-semibold">New Product</span>
-          <hr className="bg-secondary-500 w-[6rem]  h-[3px]" />
+          <hr className="bg-secondary-500 w-[6rem] rounded-[110%] h-[3px]" />
         </div>
 
         {/* new products  */}

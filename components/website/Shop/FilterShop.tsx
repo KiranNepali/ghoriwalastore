@@ -1,28 +1,94 @@
-import React, { useRef, useState } from "react";
-
-import { Icon } from "@iconify/react";
 import { useGSAP } from "@gsap/react";
-import { gsap, Expo } from "gsap";
-import { Span } from "next/dist/trace";
+import gsap from "gsap";
+import React, { useRef, useState } from "react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 type Props = {};
 
-function FilterShop({ filterShopRef }: any) {
+gsap.registerPlugin(ScrollTrigger);
+function FilterShop({
+  filterShopRef,
+  handleProductByCategory,
+  productsMainRef,
+  productsHeaderRef,
+}: any) {
+  // const filterDiv = useRef(null);
+  useGSAP(() => {
+    gsap.to(".filterDiv", {
+      scrollTrigger: {
+        markers: true,
+        start: "top 8%",
+        end: "50% top",
+        trigger: productsMainRef.current,
+        pin: ".filterDiv",
+      },
+    });
+    gsap.to(".filterDiv", {
+      scrollTrigger: {
+        markers: true,
+        start: "top 8%",
+        end: "50% top",
+        trigger: productsMainRef.current,
+        pin: productsHeaderRef.current,
+      },
+    });
+  });
   return (
     <>
-      <div ref={filterShopRef} className="w-[19vw]">
-        {/* filter main  */}
-        <div className="mt-[3rem] hidden h-screen overflow-auto w-full custom-scrollbar opacity-1 md:flex flex-col gap-3">
-          {ShopCategoryData.map((item, index) => (
-            <div
-              key={index}
-              className="flex gap-2 cursor-pointer text-primary-400 hover:text-secondary-600 hover:ml-5 duration-150 text-[13px] text-nowrap font-semibold hover:font-bold"
-            >
-              <span className=" ">{item.categoryName}</span>
-              <div className="flex w-full justify-start items-center">
-                <hr className="w-[50%] bg-secondary-400" />
-              </div>
+      <div
+        ref={filterShopRef}
+        className="w-full h-[30vh] md:w-[19vw]  md:h-auto flex-row md:flex-col gap-1"
+      >
+        <div className="w-full filterDiv h-screen overflow-hidden">
+          {/* filter by cateogry */}
+          <div className=" w-full opacity-1 md:flex flex-row md:flex-col gap-3">
+            {/* title  */}
+            <div className="flex justify-center items-center text-nowrap font-bold h-[1.5rem] gap-2 text-sm">
+              <div className="bg-black w-[2.5px] h-full"></div>
+              <span>By Category</span>
+              <hr className="w-full bg-black" />
             </div>
-          ))}
+            <div className=" h-[40vh] flex flex-col gap-1 overflow-auto w-full custom-scrollbar">
+              {ShopCategoryData.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex gap-2 cursor-pointer text-primary-400 hover:text-secondary-600 hover:ml-5 duration-150 text-[13px] text-nowrap font-semibold hover:font-bold"
+                >
+                  <span
+                    onClick={() => handleProductByCategory(item.categoryName)}
+                    className=""
+                  >
+                    {item.categoryName}
+                  </span>
+                  <div className="flex w-full justify-start items-center">
+                    <hr className="w-[50%] bg-secondary-400" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* filter by brand */}
+          <div className="mt-[1rem] relative md:mt-[1rem] w-full  opacity-1 md:flex flex-row md:flex-col gap-3">
+            {/* title  */}
+            <div className="flex justify-center items-center text-nowrap font-bold h-[1.5rem] gap-2 text-sm">
+              <div className="bg-black w-[2.5px] h-full"></div>
+              <span>By Brand</span>
+              <hr className="w-full bg-black" />
+            </div>
+            <div className=" h-[30vh] flex flex-col gap-1 overflow-auto w-full custom-scrollbar">
+              {BrandData.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex gap-2 cursor-pointer text-primary-400 hover:text-secondary-600 hover:ml-5 duration-150 text-[13px] text-nowrap font-semibold hover:font-bold"
+                >
+                  <span className="">{item.categoryName}</span>
+                  <div className="flex w-full justify-start items-center">
+                    <hr className="w-[50%] bg-secondary-400" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </>
@@ -36,7 +102,7 @@ const ShopCategoryData = [
   { id: "2", categoryName: "Clothing" },
   { id: "3", categoryName: "Books" },
   { id: "4", categoryName: "Home Decor" },
-  { id: "5", categoryName: "Sports Gear" },
+  { id: "5", categoryName: "Kitchen" },
   { id: "6", categoryName: "Beauty Products" },
   { id: "7", categoryName: "Toys & Games" },
   { id: "8", categoryName: "Food & Groceries" },
@@ -82,4 +148,19 @@ const ShopCategoryData = [
   { id: "48", categoryName: "Pet Grooming" },
   { id: "49", categoryName: "Travel Essentials" },
   { id: "50", categoryName: "Board Games" },
+];
+const BrandData = [
+  { id: "1", categoryName: "Electronics" },
+  { id: "2", categoryName: "Clothing" },
+  { id: "3", categoryName: "Books" },
+  { id: "4", categoryName: "Home Decor" },
+  { id: "5", categoryName: "Sports Gear" },
+  { id: "6", categoryName: "Beauty Products" },
+  { id: "7", categoryName: "Toys & Games" },
+  { id: "8", categoryName: "Food & Groceries" },
+  { id: "9", categoryName: "Jewelry" },
+  { id: "10", categoryName: "Furniture" },
+  { id: "11", categoryName: "Pet Supplies" },
+  { id: "12", categoryName: "Stationery" },
+  { id: "13", categoryName: "Health & Wellness" },
 ];

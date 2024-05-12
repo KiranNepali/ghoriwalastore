@@ -30,19 +30,22 @@ function SocialProduct({}: Props) {
     <main className="w-full my-[5rem] h-full flex flex-col justify-center items-center">
       <div className="w-full flex flex-col justify-center items-center">
         {/* title  */}
-        <div className="flex flex-col justify-center items-center gap-5">
+        <div className="w-full flex flex-col justify-center items-center gap-5">
           <span className="text-4xl font-semibold">INSTAGRAM</span>
-          <hr className="bg-secondary-500 w-[6rem]  h-[3px]" />
+          <hr className="bg-secondary-500 w-[6rem] rounded-[110%] h-[3px]" />
         </div>
         {/* socio products  */}
-        <div className="w-full mt-[3rem] grid grid-cols-5 auto-rows-[20rem] place-items-stretch  gap-y-1 gap-1 place-content-center">
+        <div
+          className="w-full  mt-[3rem] grid-cols-1
+         grid md:grid-cols-5 lg:grid-cols-5 auto-rows-[10rem] md:auto-rows-[15rem] lg:auto-rows-[20rem] place-items-stretch  gap-y-1 gap-1 place-content-center"
+        >
           {/* product card  */}
           {SocialProductData.map((item, index) => (
             <div
               onMouseEnter={() => handleHover(index)}
               onMouseLeave={() => handleLeave(index)}
               key={index}
-              className={`relative cursor-pointer h-full w-full flex  overflow-hidden ${
+              className={`relative w-full cursor-pointer h-full  flex  overflow-hidden ${
                 index === 0 ? "col-span-2 row-span-2" : ""
               }`}
             >

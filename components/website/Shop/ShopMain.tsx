@@ -4,15 +4,6 @@ import Image from "next/image";
 
 import ShopHero from "./ShopHero";
 
-// product images
-import NewProductImg1 from "@/public/images/new-product/new1Img.webp";
-import NewProductImg2 from "@/public/images/new-product/new2Img.webp";
-import NewProductImg3 from "@/public/images/new-product/new3Img.webp";
-// import NewProductImg4 from "@/public/images/new-product/new4Img.webp";
-import NewProductImg5 from "@/public/images/new-product/new5Img.webp";
-import NewProductImg6 from "@/public/images/new-product/new6Img.webp";
-import NewProductImg7 from "@/public/images/new-product/new7Img.webp";
-
 import { gsap, Expo } from "gsap";
 import { useGSAP } from "@gsap/react";
 
@@ -20,9 +11,11 @@ import { Icon } from "@iconify/react";
 import FilterShop from "./FilterShop";
 import Link from "next/link";
 
+import ProductsData from "@/data/products";
+
 type Props = {};
 
-function ShopMain({}: Props) {
+function AllProducts({}: Props) {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const hoverIconRef = useRef(null);
   const handleHoverIcon = (index) => {
@@ -33,7 +26,6 @@ function ShopMain({}: Props) {
       { bottom: 20, opacity: 1, duration: 0.5, ease: "linear" }
     );
   };
-
   const handleLeaveIcon = (index) => {
     setHoveredIndex(null);
     gsap.to(`.hover-icon-${index}`, {
@@ -46,11 +38,15 @@ function ShopMain({}: Props) {
   const { contextSafe } = useGSAP();
   const filterShopRef = useRef(null);
   const [openFilter, setOpenFilter] = useState(true);
+
+  // Check screen size
+  const isSmallScreen = window.matchMedia("(max-width: 600px)").matches;
   const handleFilterButton = contextSafe(() => {
     if (openFilter) {
       gsap.to(filterShopRef.current, {
         opacity: 0,
-        width: 0,
+        width: isSmallScreen ? "auto" : "0",
+        height: isSmallScreen ? "0" : "auto",
         duration: 1,
         display: "hidden",
         ease: Expo.easeOut,
@@ -64,7 +60,8 @@ function ShopMain({}: Props) {
       gsap.to(filterShopRef.current, {
         display: "flex",
         duration: 1,
-        width: "19vw",
+        width: isSmallScreen ? "auto" : "19vw",
+        height: isSmallScreen ? "30vh" : "auto",
         opacity: 1,
         ease: Expo.easeOut,
       });
@@ -75,48 +72,85 @@ function ShopMain({}: Props) {
       setOpenFilter(true);
     }
   });
+
+  const [renderProducts, setRenderProducts] = useState(ProductsData);
+
+  const [categoryName, setCategoryName] = useState("");
+  const handleProductByCategory = (name) => {
+    setCategoryName(name);
+  };
+
+  const productsMainRef = useRef(null);
+  const productsHeaderRef = useRef(null);
+
+  // Filter renderProducts based on categoryName
+  const filteredProducts = renderProducts.filter((item) => {
+    // If categoryName is not set or matches the category of the item
+    return !categoryName || item.category === categoryName;
+  });
+
+  const [clickedProducts, setClickedProducts] = useState([]);
+  const handleClickProduct = (clickedProduct) => {
+    // Add the clicked product to the clickedProducts array
+    setClickedProducts([...clickedProducts, clickedProduct]);
+  };
+  console.log(clickedProducts);
   return (
     <>
       <ShopHero />
-      <main className="w-11/12 mx-auto h-full   my-[5rem] flex gap-2 justify-center items-center overflow-hidden">
+      <main
+        ref={productsMainRef}
+        className="w-11/12 mx-auto h-full   my-[5rem] flex gap-2 justify-center items-center "
+      >
         <div className="w-full h-full flex flex-col justify-center items-center">
-          {/* title  */}
-          <div className=" w-full  flex flex-col md:flex-row justify-between items-center gap-5">
+          <div
+            ref={productsHeaderRef}
+            className="w-full relative py-3 z-10 bg-white flex flex-col md:flex-row justify-between items-center gap-5"
+          >
             {/* filter button  */}
             <div
               onClick={() => handleFilterButton()}
-              className="flex justify-center order-2 md:order-first  cursor-pointer items-center gap-2 px-4 py-2 border-[1px] border-primary-800 opacity-[0.8]"
+              className="flex justify-center order-2 bg-black text-white  md:hover:bg-secondary-600 md:order-first  cursor-pointer items-center gap-2 px-4 py-2 border-[1px]  opacity-[0.8]"
             >
-              <span className="text-[10px] md:text-[12px] font-semibold uppercase pt-1">
-                Category
+              <span className="text-[10px] md:text-[11px] font-semibold uppercase pt-1">
+                Filter
               </span>
               {/* arrow  */}
               <Icon
                 icon="mdi:arrow-drop-up"
                 width={20}
-                className="text-blac drop-icon rotate-[-90deg]"
+                className="drop-icon rotate-[180deg] md:rotate-[-90deg]"
               />
             </div>
+
+            {/* title  */}
             <div>
               <span className="text-2xl md:text-4xl font-semibold">
                 Shop Now
               </span>
-              <div className="w-full p-3  flex justify-center md:justify-end items-center">
-                <hr className="bg-secondary-500 w-[6rem]  h-[3px]" />
+              <div className="w-full   flex justify-center md:justify-end items-center">
+                <hr className="bg-secondary-500 w-[6rem] rounded-[110%] h-[3px]" />
               </div>
             </div>
           </div>
 
-          <div className="w-full flex gap-5">
-            <FilterShop filterShopRef={filterShopRef} />
+          <div className="w-full flex md:flex-row flex-col gap-5">
+            <FilterShop
+              filterShopRef={filterShopRef}
+              productsMainRef={productsMainRef}
+              productsHeaderRef={productsHeaderRef}
+              handleProductByCategory={handleProductByCategory}
+            />
+
             {/* new products  */}
-            <div className="mt-[3rem] w-full grid grid-cols-2 lg:grid-cols-4  place-content-start place-items-center gap-5">
+            <div className="w-full grid grid-cols-2 lg:grid-cols-4  place-content-start place-items-center gap-5">
               {/* product card  */}
-              {NewProductData.map((item, index) => (
+              {filteredProducts.map((item, index) => (
                 <Link
                   href="product_detail"
+                  onClick={() => handleClickProduct(item)}
                   key={index}
-                  className="w-full cursor-pointer  overflow-hidden flex flex-col gap-3"
+                  className="w-full cursor-pointer   flex flex-col gap-3"
                   onMouseEnter={() => handleHoverIcon(index)}
                   onMouseLeave={() => handleLeaveIcon(index)}
                 >
@@ -163,80 +197,4 @@ function ShopMain({}: Props) {
   );
 }
 
-export default ShopMain;
-
-const NewProductData = [
-  {
-    id: "1",
-    img: NewProductImg1,
-    productName: "Flatware",
-    price: "$78.00",
-  },
-  {
-    id: "2",
-    img: NewProductImg2,
-    productName: "Kitchen Knife Set",
-    price: "$99.99",
-  },
-  {
-    id: "3",
-    img: NewProductImg3,
-    productName: "Dinnerware Set",
-    price: "$120.00",
-  },
-  {
-    id: "4",
-    img: NewProductImg7,
-    productName: "Glass Tumblers",
-    price: "$25.50",
-  },
-  {
-    id: "5",
-    img: NewProductImg5,
-    productName: "Tea Infuser",
-    price: "$15.99",
-  },
-  {
-    id: "6",
-    img: NewProductImg6,
-    productName: "Stainless Steel Water Bottle",
-    price: "$20.00",
-  },
-  {
-    id: "6",
-    img: NewProductImg6,
-    productName: "Stainless Steel Water Bottle",
-    price: "$20.00",
-  },
-  {
-    id: "6",
-    img: NewProductImg6,
-    productName: "Stainless Steel Water Bottle",
-    price: "$20.00",
-  },
-
-  {
-    id: "6",
-    img: NewProductImg6,
-    productName: "Stainless Steel Water Bottle",
-    price: "$20.00",
-  },
-  {
-    id: "6",
-    img: NewProductImg6,
-    productName: "Stainless Steel Water Bottle",
-    price: "$20.00",
-  },
-  {
-    id: "6",
-    img: NewProductImg6,
-    productName: "Stainless Steel Water Bottle",
-    price: "$20.00",
-  },
-  {
-    id: "6",
-    img: NewProductImg6,
-    productName: "Stainless Steel Water Bottle",
-    price: "$20.00",
-  },
-];
+export default AllProducts;
