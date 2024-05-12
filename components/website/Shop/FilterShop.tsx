@@ -18,7 +18,7 @@ function FilterShop({
       if (!isSmallScreen) {
         gsap.to(".filterDiv", {
           scrollTrigger: {
-            markers: true,
+            // markers: true,
             start: "top 5%",
             end: "50% top",
             trigger: productsMainRef.current,
