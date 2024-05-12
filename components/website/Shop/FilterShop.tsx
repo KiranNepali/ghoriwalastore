@@ -12,26 +12,21 @@ function FilterShop({
   productsMainRef,
   productsHeaderRef,
 }: any) {
-  // const filterDiv = useRef(null);
   useGSAP(() => {
-    gsap.to(".filterDiv", {
-      scrollTrigger: {
-        markers: true,
-        start: "top 8%",
-        end: "50% top",
-        trigger: productsMainRef.current,
-        pin: ".filterDiv",
-      },
-    });
-    gsap.to(productsHeaderRef.current, {
-      scrollTrigger: {
-        markers: true,
-        start: "top 8%",
-        end: "50% top",
-        trigger: productsMainRef.current,
-        pin: productsHeaderRef.current,
-      },
-    });
+    if (typeof window !== "undefined") {
+      const isSmallScreen = window.matchMedia("(max-width: 600px)").matches;
+      if (!isSmallScreen) {
+        gsap.to(".filterDiv", {
+          scrollTrigger: {
+            markers: true,
+            start: "top 5%",
+            end: "50% top",
+            trigger: productsMainRef.current,
+            pin: ".filterDiv",
+          },
+        });
+      }
+    }
   });
   return (
     <>

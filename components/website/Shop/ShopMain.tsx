@@ -126,7 +126,7 @@ function AllProducts({}: Props) {
             {/* title  */}
             <div>
               <span className="text-2xl md:text-4xl font-semibold">
-                Shop Now
+                Our Products
               </span>
               <div className="w-full   flex justify-center md:justify-end items-center">
                 <hr className="bg-secondary-500 w-[6rem] rounded-[110%] h-[3px]" />
