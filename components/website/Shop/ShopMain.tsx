@@ -37,39 +37,43 @@ function AllProducts({}: Props) {
   const filterShopRef = useRef(null);
   const [openFilter, setOpenFilter] = useState(true);
 
-  // Check screen size
-  const isSmallScreen = window.matchMedia("(max-width: 600px)").matches;
-  const handleFilterButton = contextSafe(() => {
-    if (openFilter) {
-      gsap.to(filterShopRef.current, {
-        opacity: 0,
-        width: isSmallScreen ? "auto" : "0",
-        height: isSmallScreen ? "0" : "auto",
-        duration: 1,
-        display: "hidden",
-        ease: Expo.easeOut,
-      });
-      gsap.to(".drop-icon", {
-        ease: Expo.easeOut,
-        duration: 1,
-      });
-      setOpenFilter(false);
-    } else {
-      gsap.to(filterShopRef.current, {
-        display: "flex",
-        duration: 1,
-        width: isSmallScreen ? "auto" : "19vw",
-        height: isSmallScreen ? "30vh" : "auto",
-        opacity: 1,
-        ease: Expo.easeOut,
-      });
-      gsap.to(".drop-icon", {
-        ease: Expo.easeIn,
-        duration: 1,
-      });
-      setOpenFilter(true);
+  const handleFilterButton = () => {
+    if (typeof window !== "undefined") {
+      const isSmallScreen = window.matchMedia("(max-width: 600px)").matches;
+
+      if (openFilter) {
+        gsap.to(filterShopRef.current, {
+          opacity: 0,
+          width: isSmallScreen ? "auto" : "0",
+          height: isSmallScreen ? "0" : "auto",
+          duration: 1,
+          display: "hidden",
+          ease: Expo.easeOut,
+        });
+        gsap.to(".drop-icon", {
+          ease: Expo.easeOut,
+          duration: 1,
+        });
+        setOpenFilter(false);
+      } else {
+        gsap.to(filterShopRef.current, {
+          display: "flex",
+          duration: 1,
+          width: isSmallScreen ? "auto" : "19vw",
+          height: isSmallScreen ? "30vh" : "auto",
+          opacity: 1,
+          ease: Expo.easeOut,
+        });
+        gsap.to(".drop-icon", {
+          ease: Expo.easeIn,
+          duration: 1,
+        });
+        setOpenFilter(true);
+      }
     }
-  });
+  };
+
+  return handleFilterButton;  
 
   const [renderProducts, setRenderProducts] = useState(ProductsData);
 
