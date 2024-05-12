@@ -73,8 +73,6 @@ function AllProducts({}: Props) {
     }
   };
 
-  return handleFilterButton;  
-
   const [renderProducts, setRenderProducts] = useState(ProductsData);
 
   const [categoryName, setCategoryName] = useState("");
