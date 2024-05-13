@@ -7,11 +7,14 @@ import { Icon } from "@iconify/react";
 
 import NewProductImg2 from "@/public/images/new-product/new2Img.webp";
 import RecommendedProduct from "./RecommendedProduct";
+import ProductsData from "@/data/products";
+import { useParams } from "next/navigation";
 
 type Props = {};
 
 function ProductDetailMain({}: Props) {
-  const [productDetail, setProductDetail] = useState([]);
+  const { id }: any = useParams();
+  const clickedProduct = ProductsData.find((item) => item.id === id);
   return (
     <main className="w-11/12 mx-auto my-[5rem]  md:my-[8rem]  flex flex-col gap-10 justify-center items-center">
       <div className="w-full flex flex-col justify-center items-center">
@@ -19,15 +22,15 @@ function ProductDetailMain({}: Props) {
         <div className="flex  mb-[3rem] justify-start w-full items-center text-[13px] font-bold text-primary-200  gap-2">
           <Link href="/" className="hover:text-primary-400">
             Home
-          </Link>{" "}
-          <span>·</span>{" "}
-          <Link href="products" className="hover:text-primary-400">
+          </Link>
+          <span>·</span>
+          <Link href="/products" className="hover:text-primary-400">
             Products
           </Link>
           ·
           <Link className="text-primary-400" href="product-detail">
             Product detail
-          </Link>{" "}
+          </Link>
           <span>·</span>
         </div>
         <div className="grid w-full md:grid-cols-7 gap-5 place-content-center place-items-center">
@@ -49,12 +52,17 @@ function ProductDetailMain({}: Props) {
                 ></Image>
               </div>
             </div>
+
+
+            {/* HERE SHOW THE IMAGE WHICH IS CLICKED  */}
             <div className="bg-slate-50  w-full h-[30rem]">
-              <Image
-                src={NewProductImg2}
-                alt="product-detail-image"
-                className="w-full h-full object-center object-cover"
-              ></Image>
+              {clickedProduct && clickedProduct.img && (
+                <Image
+                  src={clickedProduct.img}
+                  alt="product-detail-image"
+                  className="w-full h-full object-center object-cover"
+                />
+              )}
             </div>
           </div>
           {/* description  */}
@@ -63,10 +71,10 @@ function ProductDetailMain({}: Props) {
               {/* name price  */}
               <div className="flex-col gap-2 flex">
                 <span className="text-3xl font-semibold text-primary-500">
-                  Beechwood
+                  {clickedProduct?.productName}
                 </span>
                 <span className="text-secondary-400 font-semibold text-xl">
-                  $120.00
+                  {clickedProduct?.price}
                 </span>
               </div>
               {/* fav icon  */}
@@ -87,12 +95,6 @@ function ProductDetailMain({}: Props) {
               tastes and heat sources. Buy now PRESSURE COOKERS Using a pressure
               cooker, dishes are prepared much faster than with..
             </p>
-
-            {/* <div className="flex-col flex">
-              <span className="flex gap-2">
-                <span>Name:</span> <span>value</span>
-              </span>
-            </div> */}
 
             {/* shop now button  */}
             <Link href="product_detail" className="text-start w-full">

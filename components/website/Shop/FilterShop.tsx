@@ -9,41 +9,30 @@ gsap.registerPlugin(ScrollTrigger);
 function FilterShop({
   filterShopRef,
   handleProductByCategory,
-  productsMainRef,
-  productsHeaderRef,
+  handleCloseFilter,
 }: any) {
-  useGSAP(() => {
-    if (typeof window !== "undefined") {
-      const isSmallScreen = window.matchMedia("(max-width: 600px)").matches;
-      if (!isSmallScreen) {
-        gsap.to(".filterDiv", {
-          scrollTrigger: {
-            // markers: true,
-            start: "top 5%",
-            end: "50% top",
-            trigger: productsMainRef.current,
-            pin: ".filterDiv",
-          },
-        });
-      }
-    }
-  });
   return (
     <>
       <div
         ref={filterShopRef}
-        className="w-full h-[30vh] md:w-[19vw]  md:h-auto flex-row md:flex-col gap-1"
+        className="hidden md:flex w-full fixed top-0  left-0 bg-white z-[50] md:z-auto md:relative  md:w-[19vw]  md:h-auto flex-col gap-1"
       >
-        <div className="w-full filterDiv h-screen overflow-hidden">
+        <div
+          onClick={() => handleCloseFilter()}
+          className="justify-end  flex md:hidden font-semibold items-center text-end w-11/12 mx-auto md:w-auto pt-3"
+        >
+          Close
+        </div>
+        <div className="filterDiv flex justify-start items-center flex-col gap-3 w-11/12 mx-auto md:sticky top-[10%] left-0 h-screen overflow-hidden">
           {/* filter by cateogry */}
-          <div className=" w-full opacity-1 md:flex flex-row md:flex-col gap-3">
+          <div className="w-full  opacity-1 md:flex flex-row md:flex-col gap-3">
             {/* title  */}
             <div className="flex justify-center items-center text-nowrap font-bold h-[1.5rem] gap-2 text-sm">
               <div className="bg-black w-[2.5px] h-full"></div>
               <span>By Category</span>
               <hr className="w-full bg-black" />
             </div>
-            <div className=" h-[40vh] flex flex-col gap-1 overflow-auto w-full custom-scrollbar">
+            <div className="h-[40vh] flex flex-col gap-1 overflow-y-auto overflow-x-hidden w-full custom-scrollbar">
               {ShopCategoryData.map((item, index) => (
                 <div
                   key={index}
@@ -70,11 +59,11 @@ function FilterShop({
               <span>By Brand</span>
               <hr className="w-full bg-black" />
             </div>
-            <div className=" h-[30vh] flex flex-col gap-1 overflow-auto w-full custom-scrollbar">
+            <div className=" h-[30vh] flex flex-col gap-1 overflow-y-scroll w-full custom-scrollbar">
               {BrandData.map((item, index) => (
                 <div
                   key={index}
-                  className="flex gap-2 cursor-pointer text-primary-400 hover:text-secondary-600 hover:ml-5 duration-150 text-[13px] text-nowrap font-semibold hover:font-bold"
+                  className="flex  gap-2 cursor-pointer text-primary-400 hover:text-secondary-600 hover:ml-5 duration-150 text-[13px] text-nowrap font-semibold hover:font-bold"
                 >
                   <span className="">{item.categoryName}</span>
                   <div className="flex w-full justify-start items-center">

@@ -1,14 +1,14 @@
-import ProductDetailMain from "@/components/website/ProductDetail/ProductDetailMain";
-import React from "react";
+// import ProductDetailMain from "@/components/website/ProductDetail/ProductDetailMain";
+// import React from "react";
 
-type Props = {};
+// type Props = {};
 
-function page({}: Props) {
-  return (
-    <div>
-      <ProductDetailMain />
-    </div>
-  );
-}
+// function page({}: Props) {
+//   return (
+//     <div>
+//       <ProductDetailMain />
+//     </div>
+//   );
+// }
 
-export default page;
+// export default page;

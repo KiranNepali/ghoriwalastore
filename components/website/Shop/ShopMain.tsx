@@ -1,8 +1,9 @@
 "use client";
+import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 import Image from "next/image";
 
-import ShopHero from "./ShopHero";
+// import ShopHero from "./ShopHero";
 
 import { gsap, Expo } from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -13,10 +14,14 @@ import Link from "next/link";
 
 import ProductsData from "@/data/products";
 
+import dynamic from "next/dynamic";
+
+const ShopHero = dynamic(() => import("./ShopHero"), {
+  loading: () => <p>Loading...</p>,
+});
 type Props = {};
 
 function AllProducts({}: Props) {
-  const hoverIconRef = useRef(null);
   const handleHoverIcon = (index: number) => {
     gsap.fromTo(
       `.hover-icon-${index}`,
@@ -36,41 +41,39 @@ function AllProducts({}: Props) {
   const { contextSafe } = useGSAP();
   const filterShopRef = useRef(null);
   const [openFilter, setOpenFilter] = useState(true);
-
+  const isSmallScreen = window.matchMedia("(max-width: 600px)").matches;
   const handleFilterButton = () => {
     if (typeof window !== "undefined") {
-      const isSmallScreen = window.matchMedia("(max-width: 600px)").matches;
-
       if (openFilter) {
         gsap.to(filterShopRef.current, {
           opacity: 0,
-          width: isSmallScreen ? "auto" : "0",
-          height: isSmallScreen ? "0" : "auto",
-          duration: 1,
-          display: "hidden",
+          width: !isSmallScreen ? "0" : "100vw",
+          duration: 0.8,
+          display: "none",
           ease: Expo.easeOut,
-        });
-        gsap.to(".drop-icon", {
-          ease: Expo.easeOut,
-          duration: 1,
         });
         setOpenFilter(false);
       } else {
         gsap.to(filterShopRef.current, {
           display: "flex",
-          duration: 1,
-          width: isSmallScreen ? "auto" : "19vw",
-          height: isSmallScreen ? "30vh" : "auto",
+          duration: 0.5,
+          width: !isSmallScreen ? "19vw" : "",
           opacity: 1,
           ease: Expo.easeOut,
         });
-        gsap.to(".drop-icon", {
-          ease: Expo.easeIn,
-          duration: 1,
-        });
+
         setOpenFilter(true);
       }
     }
+  };
+
+  const handleCloseFilter = () => {
+    gsap.to(filterShopRef.current, {
+      width: isSmallScreen ? "0" : "",
+      duration: 0.5,
+      display: "none",
+      ease: Expo.easeInOut,
+    });
   };
 
   const [renderProducts, setRenderProducts] = useState(ProductsData);
@@ -78,6 +81,14 @@ function AllProducts({}: Props) {
   const [categoryName, setCategoryName] = useState("");
   const handleProductByCategory = (name: string) => {
     setCategoryName(name);
+    if (!isSmallScreen) {
+      gsap.to(filterShopRef.current, {
+        width: isSmallScreen ? "0" : "",
+        duration: 0.5,
+        display: "none",
+        ease: Expo.easeInOut,
+      });
+    }
   };
 
   const productsMainRef = useRef(null);
@@ -89,18 +100,12 @@ function AllProducts({}: Props) {
     return !categoryName || item.category === categoryName;
   });
 
-  const [clickedProducts, setClickedProducts] = useState<any[]>([]);
-  const handleClickProduct = (clickedProduct: any) => {
-    // Add the clicked product to the clickedProducts array
-    setClickedProducts([...clickedProducts, clickedProduct]);
-  };
-  console.log(clickedProducts);
   return (
     <>
       <ShopHero />
       <main
         ref={productsMainRef}
-        className="w-11/12 mx-auto h-full   my-[5rem] flex gap-2 justify-center items-center "
+        className="w-11/12 mx-auto h-full  my-[5rem] flex gap-2 justify-center items-center "
       >
         <div className="w-full h-full flex flex-col justify-center items-center">
           <div
@@ -119,7 +124,7 @@ function AllProducts({}: Props) {
               <Icon
                 icon="mdi:arrow-drop-up"
                 width={20}
-                className="drop-icon rotate-[180deg] md:rotate-[-90deg]"
+                className="drop-icon rotate-[90deg] md:rotate-[-90deg]"
               />
             </div>
 
@@ -128,17 +133,18 @@ function AllProducts({}: Props) {
               <span className="text-2xl md:text-4xl font-semibold">
                 Our Products
               </span>
-              <div className="w-full   flex justify-center md:justify-end items-center">
+              <div className="w-full flex justify-center md:justify-end items-center">
                 <hr className="bg-secondary-500 w-[6rem] rounded-[110%] h-[3px]" />
               </div>
             </div>
           </div>
 
-          <div className="w-full flex md:flex-row flex-col gap-5">
+          <div className="w-full h-auto md:h-[150vh] flex md:flex-row flex-col gap-5">
             <FilterShop
               filterShopRef={filterShopRef}
               productsMainRef={productsMainRef}
               productsHeaderRef={productsHeaderRef}
+              handleCloseFilter={handleCloseFilter}
               handleProductByCategory={handleProductByCategory}
             />
 
@@ -147,8 +153,7 @@ function AllProducts({}: Props) {
               {/* product card  */}
               {filteredProducts.map((item, index) => (
                 <Link
-                  href="product_detail"
-                  onClick={() => handleClickProduct(item)}
+                  href={`product_detail/${item.id}`}
                   key={index}
                   className="w-full cursor-pointer   flex flex-col gap-3"
                   onMouseEnter={() => handleHoverIcon(index)}
@@ -161,6 +166,8 @@ function AllProducts({}: Props) {
                       className="w-full h-full  object-cover object-center"
                       src={item.img}
                       alt={item.productName}
+                      placeholder="blur"
+                      loading="lazy"
                     />
                     {/* hover icon  */}
                     <div

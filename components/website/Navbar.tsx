@@ -213,15 +213,11 @@ const sideNavLinks = [
     name: "Home",
   },
   {
-    id: "1",
+    id: "2",
     name: "Products",
   },
   {
-    id: "1",
+    id: "3",
     name: "Contact",
-  },
-  {
-    id: "1",
-    name: "Blogs",
   },
 ];
